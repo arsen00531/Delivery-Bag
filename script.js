@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.innerHTML = '';
-    
+
     function type() {
       if (i < text.length) {
         element.innerHTML += text.charAt(i);
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(type, speed);
       }
     }
-    
+
     type();
   }
 
@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const body = document.body;
 
   if (burgerBtn) {
-    burgerBtn.addEventListener('click', function() {
+    burgerBtn.addEventListener('click', function () {
       body.classList.toggle('mobile-nav-active');
     });
   }
 
   // Close mobile menu when clicking on links
   if (mobileNav) {
-    mobileNav.addEventListener('click', function(e) {
+    mobileNav.addEventListener('click', function (e) {
       if (e.target.matches('.nav__link')) {
         body.classList.remove('mobile-nav-active');
       }
@@ -54,12 +54,12 @@ document.addEventListener('DOMContentLoaded', function () {
   function openModal() {
     modal.classList.add('modal--active');
     body.classList.add('modal-open');
-    
+
     // Focus on first input and initialize components
     setTimeout(() => {
       const firstInput = modal.querySelector('.form__input');
       if (firstInput) firstInput.focus();
-      
+
       // Initialize phone mask and city select
       initPhoneMask();
       initCitySelect();
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function closeModal() {
     modal.classList.remove('modal--active');
     body.classList.remove('modal-open');
-    
+
     // Reset form
     if (modalForm) {
       modalForm.reset();
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Event listeners for opening modal
   testdriveBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
+    btn.addEventListener('click', function (e) {
       e.preventDefault();
       openModal();
     });
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
   modalOverlay.addEventListener('click', closeModal);
 
   // Close modal on Escape key
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && modal.classList.contains('modal--active')) {
       closeModal();
     }
@@ -98,21 +98,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Form submission
   if (modalForm) {
-    modalForm.addEventListener('submit', function(e) {
+    modalForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      
+
       // Get form data
       const formData = new FormData(modalForm);
       const data = Object.fromEntries(formData);
-      
+
       // Handle custom city
       const cityValue = data.city;
       const customCityInput = document.getElementById('custom-city');
-      
+
       if (cityValue === 'other' && customCityInput && customCityInput.value.trim()) {
         data.city = customCityInput.value.trim();
       }
-      
+
       // Validate email format
       const emailInput = document.getElementById('email');
       if (emailInput && emailInput.value) {
@@ -122,11 +122,11 @@ document.addEventListener('DOMContentLoaded', function () {
           return;
         }
       }
-      
+
       // Show loading state
       const submitBtn = modalForm.querySelector('.modal__btn');
       const originalText = submitBtn.innerHTML;
-      
+
       submitBtn.innerHTML = `
         <span class="btn__text">Отправка...</span>
         <span class="btn__icon">
@@ -135,9 +135,9 @@ document.addEventListener('DOMContentLoaded', function () {
           </svg>
         </span>
       `;
-      
+
       submitBtn.disabled = true;
-      
+
       // Prepare email data
       const emailData = {
         to: 'Delivery.Help.me@gmail.com',
@@ -154,7 +154,7 @@ Email: ${data.email}
 Дата отправки: ${new Date().toLocaleString('ru-RU')}
         `.trim()
       };
-      
+
       // Send form data using Formspree
       fetch(modalForm.action, {
         method: 'POST',
@@ -163,10 +163,10 @@ Email: ${data.email}
           'Accept': 'application/json'
         }
       })
-      .then(response => {
-        if (response.ok) {
-          // Show success message
-          submitBtn.innerHTML = `
+        .then(response => {
+          if (response.ok) {
+            // Show success message
+            submitBtn.innerHTML = `
             <span class="btn__text">Отправлено!</span>
             <span class="btn__icon">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -174,25 +174,25 @@ Email: ${data.email}
               </svg>
             </span>
           `;
-          
-          submitBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
-          
-          // Reset button after 3 seconds
-          setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.style.background = '';
-            submitBtn.disabled = false;
-            closeModal();
-          }, 3000);
-          
-          console.log('Form submitted successfully');
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .catch(function(error) {
-        // Show error message
-        submitBtn.innerHTML = `
+
+            submitBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+
+            // Reset button after 3 seconds
+            setTimeout(() => {
+              submitBtn.innerHTML = originalText;
+              submitBtn.style.background = '';
+              submitBtn.disabled = false;
+              closeModal();
+            }, 3000);
+
+            console.log('Form submitted successfully');
+          } else {
+            throw new Error('Network response was not ok');
+          }
+        })
+        .catch(function (error) {
+          // Show error message
+          submitBtn.innerHTML = `
           <span class="btn__text">Ошибка отправки</span>
           <span class="btn__icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -200,18 +200,18 @@ Email: ${data.email}
             </svg>
           </span>
         `;
-        
-        submitBtn.style.background = 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)';
-        
-        // Reset button after 3 seconds
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText;
-          submitBtn.style.background = '';
-          submitBtn.disabled = false;
-        }, 3000);
-        
-        console.error('Form submission failed:', error);
-      });
+
+          submitBtn.style.background = 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)';
+
+          // Reset button after 3 seconds
+          setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.style.background = '';
+            submitBtn.disabled = false;
+          }, 3000);
+
+          console.error('Form submission failed:', error);
+        });
     });
   }
 
@@ -220,7 +220,7 @@ Email: ${data.email}
   const header = document.querySelector('.header');
 
   navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
 
       // Only prevent default for internal anchor links
@@ -269,14 +269,14 @@ Email: ${data.email}
 
   // Секции с анимацией
   const animatedSections = [
-    {selector: '.features-section', className: 'features-section--visible'},
-    {selector: '.unique-features', className: 'unique-features--visible'},
-    {selector: '.gallery', className: 'gallery--visible'},
-    {selector: '.testdrive', className: 'testdrive--visible'},
-    {selector: '.preview360__container', className: 'preview360--visible'},
-    {selector: '.about', className: 'about--visible'},
-    {selector: '.users', className: 'users--visible'},
-    {selector: '.app-download', className: 'app-download--visible'}
+    { selector: '.features-section', className: 'features-section--visible' },
+    { selector: '.unique-features', className: 'unique-features--visible' },
+    { selector: '.gallery', className: 'gallery--visible' },
+    { selector: '.testdrive', className: 'testdrive--visible' },
+    { selector: '.preview360__container', className: 'preview360--visible' },
+    { selector: '.about', className: 'about--visible' },
+    { selector: '.users', className: 'users--visible' },
+    { selector: '.app-download', className: 'app-download--visible' }
   ];
 
   function animateClosestSection() {
@@ -284,14 +284,14 @@ Email: ${data.email}
     const centerY = windowHeight / 2;
     let closestSection = null;
     let minDist = Infinity;
-    animatedSections.forEach(({selector, className}) => {
+    animatedSections.forEach(({ selector, className }) => {
       const el = document.querySelector(selector);
       if (!el || el.classList.contains(className)) return;
       const rect = el.getBoundingClientRect();
       const dist = Math.abs(rect.top - centerY);
       if (rect.top < windowHeight && dist < minDist) {
         minDist = dist;
-        closestSection = {el, className};
+        closestSection = { el, className };
       }
     });
     if (closestSection) {
@@ -307,12 +307,12 @@ Email: ${data.email}
   function openModal() {
     modal.classList.add('modal--active');
     body.classList.add('modal-open');
-    
+
     // Focus on first input and initialize components
     setTimeout(() => {
       const firstInput = modal.querySelector('.form__input');
       if (firstInput) firstInput.focus();
-      
+
       // Initialize phone mask and city select
       initPhoneMask();
       initCitySelect();
@@ -326,9 +326,9 @@ Email: ${data.email}
     const phoneInput = document.getElementById('phone');
     if (!phoneInput) return;
 
-    phoneInput.addEventListener('input', function(e) {
+    phoneInput.addEventListener('input', function (e) {
       let value = e.target.value.replace(/\D/g, ''); // Убираем все нецифры
-      
+
       if (value.length === 0) {
         e.target.value = '';
         return;
@@ -336,53 +336,53 @@ Email: ${data.email}
 
       // Форматируем номер
       let formattedValue = '';
-      
+
       if (value.length >= 1) {
         formattedValue = '+7';
       }
-      
+
       if (value.length >= 2) {
         formattedValue += ' (';
       }
-      
+
       if (value.length >= 5) {
         formattedValue += value.substring(1, 4) + ') ';
       } else if (value.length >= 2) {
         formattedValue += value.substring(1);
       }
-      
+
       if (value.length >= 8) {
         formattedValue += value.substring(4, 7) + '-';
       } else if (value.length >= 5) {
         formattedValue += value.substring(4);
       }
-      
+
       if (value.length >= 10) {
         formattedValue += value.substring(7, 9) + '-';
       } else if (value.length >= 8) {
         formattedValue += value.substring(7);
       }
-      
+
       if (value.length >= 12) {
         formattedValue += value.substring(9, 11);
       } else if (value.length >= 10) {
         formattedValue += value.substring(9);
       }
-      
+
       e.target.value = formattedValue;
     });
 
     // Обработка удаления символов
-    phoneInput.addEventListener('keydown', function(e) {
+    phoneInput.addEventListener('keydown', function (e) {
       if (e.key === 'Backspace') {
         const cursorPosition = e.target.selectionStart;
         const value = e.target.value;
-        
+
         // Если курсор находится перед скобкой или дефисом, пропускаем их
-        if (value[cursorPosition - 1] === '(' || 
-            value[cursorPosition - 1] === ')' || 
-            value[cursorPosition - 1] === ' ' || 
-            value[cursorPosition - 1] === '-') {
+        if (value[cursorPosition - 1] === '(' ||
+          value[cursorPosition - 1] === ')' ||
+          value[cursorPosition - 1] === ' ' ||
+          value[cursorPosition - 1] === '-') {
           e.preventDefault();
           e.target.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
         }
@@ -410,39 +410,39 @@ Email: ${data.email}
     }
 
     // Toggle dropdown
-    cityTrigger.addEventListener('click', function(e) {
+    cityTrigger.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      
+
       console.log('City trigger clicked');
       console.log('Current dropdown state:', cityDropdown.classList.contains('select-dropdown--active'));
-      
+
       cityDropdown.classList.toggle('select-dropdown--active');
       cityTrigger.classList.toggle('active');
-      
+
       console.log('New dropdown state:', cityDropdown.classList.contains('select-dropdown--active'));
     });
 
     // Handle dropdown item selection
     dropdownItems.forEach(item => {
-      item.addEventListener('click', function(e) {
+      item.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const value = this.getAttribute('data-value');
         const cityName = this.querySelector('.city-name').textContent;
-        
+
         // Update trigger text
         selectText.textContent = cityName;
         selectText.classList.remove('placeholder');
-        
+
         // Update hidden input
         cityInput.value = value;
-        
+
         // Show/hide custom city input
         const customCityContainer = document.getElementById('custom-city-container');
         const customCityInput = document.getElementById('custom-city');
-        
+
         if (value === 'other') {
           customCityContainer.style.display = 'block';
           setTimeout(() => {
@@ -456,7 +456,7 @@ Email: ${data.email}
             if (customCityInput) customCityInput.value = '';
           }, 300);
         }
-        
+
         // Close dropdown
         cityDropdown.classList.remove('select-dropdown--active');
         cityTrigger.classList.remove('active');
@@ -464,7 +464,7 @@ Email: ${data.email}
     });
 
     // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!citySelector.contains(e.target)) {
         cityDropdown.classList.remove('select-dropdown--active');
         cityTrigger.classList.remove('active');
@@ -472,7 +472,7 @@ Email: ${data.email}
     });
 
     // Close dropdown on Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && cityDropdown.classList.contains('select-dropdown--active')) {
         cityDropdown.classList.remove('select-dropdown--active');
         cityTrigger.classList.remove('active');
