@@ -2,39 +2,9 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://delivery-bag.ru/sitemap-index.xml
-Sitemap: https://delivery-bag.ru/sitemap.xml
-Sitemap: https://delivery-bag.ru/sitemap-images.xml
+Sitemap: https://deli-bag.ru/sitemap-index.xml
+Sitemap: https://deli-bag.ru/sitemap.xml
+Sitemap: https://deli-bag.ru/sitemap-images.xml
 
-# Crawl-delay для различных ботов
-Crawl-delay: 1
-
-# Запретить индексацию технических файлов
-Disallow: /assets/*.apk
-Disallow: *.apk
-
-# Разрешить доступ к важным ресурсам
-Allow: /assets/*.svg
-Allow: /assets/*.png
-Allow: /assets/*.jpg
-Allow: /style.css
-Allow: /script.js
-Allow: /favicons/
-Allow: /favicons/*.ico
-Allow: /favicons/*.png
-Allow: /favicons/*.svg
-Allow: /favicons/site.webmanifest
-Allow: /favicons/browserconfig.xml
-
-# Указания для основных поисковых систем
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Yandex
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
+# Запретить только технические файлы
+Disallow: /assets/DBag_27.06.25_release_SIGNED.apk
