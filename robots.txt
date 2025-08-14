@@ -19,11 +19,12 @@ Allow: /assets/*.png
 Allow: /assets/*.jpg
 Allow: /style.css
 Allow: /script.js
-Allow: /favicon.ico
-Allow: /favicon.png
-Allow: /favicon.svg
-Allow: /site.webmanifest
-Allow: /browserconfig.xml
+Allow: /favicons/
+Allow: /favicons/*.ico
+Allow: /favicons/*.png
+Allow: /favicons/*.svg
+Allow: /favicons/site.webmanifest
+Allow: /favicons/browserconfig.xml
 
 # Указания для основных поисковых систем
 User-agent: Googlebot
